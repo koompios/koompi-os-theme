@@ -1,0 +1,20 @@
+[SddmGreeterTheme]
+Name=Kameleon
+Name[x-test]=xxKameleonxx
+
+Description=Kameleon theme with virtual keyboard support
+Description[x-test]=xxKameleon theme with virtual keyboard supportxx
+
+Author=Robot WML
+Copyright=Robot WML
+License=CC-BY-SA
+Type=sddm-theme
+Version=0.1
+Website=https://gitlab.com/rwml/kameleon/
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Email=
+Theme-Id=Kameleon
+Theme-API=2.0

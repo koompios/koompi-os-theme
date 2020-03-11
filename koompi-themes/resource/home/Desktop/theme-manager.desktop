@@ -1,0 +1,25 @@
+[Desktop Entry]
+Actions=new-window;new-private-window;
+Categories=Application;Settings;
+Comment[en_US]=Change KOOMPI OS Global Theme
+Comment=Change KOOMPI OS Global Theme
+Exec=/usr/bin/theme-manager
+GenericName[en_US]=Theme Manager
+GenericName=Theme Manager
+Icon=preferences-desktop-theme-global
+Keywords=Theme;Explorer;Settings
+MimeType=text/html;application/xml;application/xhtml+xml;application/x-xpinstall;
+Name[en_US]=Theme Manager
+Name=Theme Manager
+Path=
+StartupNotify=true
+StartupWMClass=firefox
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+X-MultipleArgs=false
