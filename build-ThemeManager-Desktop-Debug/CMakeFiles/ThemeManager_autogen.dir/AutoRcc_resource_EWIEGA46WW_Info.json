@@ -1,0 +1,27 @@
+{
+	"BUILD_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/ThemeManager_autogen",
+	"CMAKE_BINARY_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager",
+	"CMAKE_SOURCE_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager",
+	"INCLUDE_DIR" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/ThemeManager_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/mosx-dark.png",
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/mosx-light.png",
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/winx-light.png",
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/winx-dark.png",
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/koompi-light.png",
+		"/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resources/images/koompi-dark.png"
+	],
+	"LOCK_FILE" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/ThemeManager_autogen.dir/AutoRcc_resource_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resource" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resource.cpp",
+	"RCC_EXECUTABLE" : "/usr/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/ThemeManager_autogen.dir/AutoRcc_resource_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/sunny/KOOMPI OS/koompi-os-theme/ThemeManager/resource.qrc",
+	"VERBOSITY" : 0
+}
