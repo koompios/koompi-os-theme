@@ -1,4 +1,0 @@
-/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/edit_cache.dir
-/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/rebuild_cache.dir
-/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/ThemeManager.dir
-/home/sunny/KOOMPI OS/koompi-os-theme/build-ThemeManager-Desktop-Debug/CMakeFiles/ThemeManager_autogen.dir

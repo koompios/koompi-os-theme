@@ -1,8 +1,0 @@
-# ninja log v5
-1	1785	1594264338717051888	CMakeFiles/ThemeManager.dir/mainwindow.cpp.o	e6294398d4e8196d
-1785	2168	1594264339097057310	ThemeManager	1843a914c1d680fb
-952	28395	1594101025862905188	CMakeFiles/ThemeManager.dir/ThemeManager_autogen/EWIEGA46WW/qrc_resource.cpp.o	783fd9fa430ef414
-951	3541	1594101001012382581	CMakeFiles/ThemeManager.dir/ThemeManager_autogen/mocs_compilation.cpp.o	3394de72ddd423c6
-1	1504	1594179445396113150	CMakeFiles/ThemeManager.dir/main.cpp.o	ed604570104a8391
-194	951	1594100998378993802	ThemeManager_autogen/EWIEGA46WW/qrc_resource.cpp	c54e325544db52d8
-0	194	1594100997665645447	ThemeManager_autogen/timestamp	a9231edc9129c3f
