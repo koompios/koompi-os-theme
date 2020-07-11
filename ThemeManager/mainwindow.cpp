@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
     Mainwindowscoll->setCentralWidget(scroll);
 
     //Last Widget
-    LastWidget->setGeometry(0,0,900,645);
+    LastWidget->setGeometry(0,0,900,655);
 
     MainLastLayout->addWidget(AppTitle);
     MainLastLayout->addWidget(Mainwindowscoll);
@@ -212,8 +212,8 @@ QPushButton *MainWindow::ConfirmButton(QPushButton *Button, const QString &Name,
     Button->setText(Name);
     Button->setIcon(QIcon::fromTheme(IconName));
     Button->setIconSize(QSize(26,26));
-    Button->setMinimumHeight(30);
-    Button->setMaximumHeight(30);
+    Button->setMinimumHeight(35);
+    Button->setMaximumHeight(35);
     return Button;
 }
 
