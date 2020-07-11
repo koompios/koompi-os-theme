@@ -1,1 +1,4 @@
-build*
+build-ThemeManager-Desktop-Debug*
+ThemeManager/CMakeLists.txt.user*
+ThemeManager/CMakeLists.txt.user.5025bb5
+ThemeManager/CMakeLists.txt.user.ab7a3ec
