@@ -24,22 +24,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
+
+set(TS_FILES km.ts)
 
 if(ANDROID)
-  add_library(ThemeManager SHARED
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    resource.qrc
-  )
+    add_library(ThemeManager SHARED
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        resource.qrc
+        i18n.qrc
+        ${TS_FILES}
+        )
 else()
-  add_executable(ThemeManager
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    resource.qrc
-  )
+    add_executable(ThemeManager
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        resource.qrc
+        i18n.qrc
+        ${TS_FILES}
+        )
 endif()
 
 target_link_libraries(ThemeManager PRIVATE Qt5::Widgets)
+qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
