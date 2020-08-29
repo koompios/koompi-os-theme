@@ -14,10 +14,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <QScrollArea>
-#include <QComboBox>
-#include <QLibraryInfo>
 #include <QDir>
-
 
 QWidget* wrap(QLayout* l) {
     auto widget = new QWidget();
@@ -25,40 +22,28 @@ QWidget* wrap(QLayout* l) {
     return widget;
 }
 
-void MainWindow::englishsystemlangtool(){
-
-    savelanguage();
-    QTranslator translator;
-    qApp->removeTranslator(&translator);
-    khmermain = new MainWindow;
-    khmermain->installEventFilter(this);
-}
-void MainWindow::khmersystemlangtool(){
-
-    savelanguage();
-    QTranslator translator;
-    translator.load(":/i18n/km.qm");
-    qApp->installTranslator(&translator);
-    khmermain = new MainWindow;
-    khmermain->installEventFilter(this);
-}
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-
 {
-    //Load Data Language And Show Language
     QString savedata = QDir::homePath().append("/.config/Theme Manager/thememanager.ini");
     QLocale lsystem = QLocale::system();
     QSettings settings(savedata, QSettings::IniFormat);
     settings.beginGroup("mainwindow");
-
-    if (settings.value("combo").toString() == "Khmer"){
+    if (settings.value("combo").toInt() == 0){
+        if (lsystem.languageToString(lsystem.language()) != "Khmer"){
+            setenglishlang();
+        }
+        if (lsystem.languageToString(lsystem.language()) == "Khmer"){
+            setkhmerlang();
+        }
+    }
+    if (settings.value("combo").toInt() == 1){
         setkhmerlang();
     }
-    if (settings.value("combo").toString() == "English"){
+    if (settings.value("combo").toInt() == 2){
         setenglishlang();
     }
-    if (settings.value("combo").toString() != "English" && settings.value("combo").toString() != "Khmer"){
+    if (settings.value("combo").toInt() != 0 && settings.value("combo").toInt() != 1 && settings.value("combo").toInt() != 2){
 
         if (lsystem.languageToString(lsystem.language()) != "Khmer"){
             setenglishlang();
@@ -67,55 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
             setkhmerlang();
         }
     }
-    settings.endGroup();
 }
-
 void MainWindow::fullmainwindow(){
-    QLocale lsystem = QLocale::system();
-
-    //Create New Language Tool Dialog
-    QVBoxLayout*langlayout = new QVBoxLayout;
-    QHBoxLayout* comboxlabellayout = new QHBoxLayout;
-    QHBoxLayout* buttonlayout = new QHBoxLayout;
-
-    //ComboBox Language Label Button ...
-    combo = new QComboBox;
-    applybutton = new QPushButton;
-    cancelbutton = new QPushButton;
-    checkbox = new QCheckBox;
-    label = new QLabel;
-
-    checkbox->setText(tr("System Language"));
-    label->setText(tr("Languages"));
-
-    if (lsystem.languageToString(lsystem.language()) == "Khmer"){
-        combo->addItem(tr("Khmer"));
-        combo->addItem(tr("English"));
-    }
-    if (lsystem.languageToString(lsystem.language()) != "Khmer"){
-        combo->addItem(tr("English"));
-        combo->addItem(tr("Khmer"));
-    }
-    //combo->setFocusPolicy(Qt::NoFocus);
-    combo->setFocusPolicy(Qt::ClickFocus);
-
-    applybutton->setText(tr("Apply"));
-    cancelbutton->setText(tr("Cancel"));
-
-    loadcombobox();     //call load combobox savedata
-    loadcheckbox();     //call load checkbox savedata
-
-    comboxlabellayout->addWidget(label, 5);
-    comboxlabellayout->addWidget(combo, 1);
-
-    buttonlayout->addWidget(applybutton);
-    buttonlayout->addWidget(cancelbutton);
-
-    langlayout->addLayout(comboxlabellayout);
-    langlayout->addStretch();
-    langlayout->addWidget(checkbox);
-    langlayout->addLayout(buttonlayout);
-
     //All Widget And Mainwindow
     QWidget *widgetscroll = new QWidget;
     QMainWindow *Mainwindowscoll = new QMainWindow;
@@ -123,32 +61,33 @@ void MainWindow::fullmainwindow(){
     QWidget *LastWidget = new QWidget;
 
     // All layout variables
+    QHBoxLayout * langtoollayout = new QHBoxLayout;
     QGridLayout * ThumbnailLayout = new QGridLayout;
     QVBoxLayout * Mainlayout = new QVBoxLayout;
     QHBoxLayout * FooterLayout = new QHBoxLayout;
-    QHBoxLayout * AppTitleLayout = new QHBoxLayout;
-    QVBoxLayout * layoutscroll = new QVBoxLayout(widgetscroll);
+    QVBoxLayout *layoutscroll = new QVBoxLayout(widgetscroll);
     QVBoxLayout * MainLastLayout = new QVBoxLayout(LastWidget);
 
     // Header
     QLabel * AppTitle = new QLabel;
-    QPushButton * LanguageTitle = new QPushButton;
-
     AppTitle->setText(tr("Choose a theme you like and click apply."));
     AppTitle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
     AppTitle->setMinimumHeight(35);
     AppTitle->setMaximumHeight(35);
 
-    LanguageTitle->setText(tr("Languages"));
-    LanguageTitle->setMinimumHeight(35);
-    LanguageTitle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
-    LanguageTitle->setMaximumHeight(35);
-
     // Footer
     QPushButton * Default = new QPushButton;
     QPushButton * Apply = new QPushButton;
     QPushButton * Cancel = new QPushButton;
-    QPushButton * Lang = new QPushButton;
+
+    //Combobox
+    combo = new QComboBox(this);
+    combo->addItem(tr("System Language"));
+    combo->addItem(tr("Khmer"));
+    combo->addItem(tr("English"));
+    combo->setFocusPolicy(Qt::ClickFocus);
+
+    loadlanguage(); //load language and combobox
 
     if(selected == 0) {
         Apply->setDisabled(true);
@@ -156,8 +95,6 @@ void MainWindow::fullmainwindow(){
     ConfirmButton(Default, tr("Restore Default"), tr("preferences-desktop-default-applications"));
     ConfirmButton(Apply, tr("Apply"), tr("dialog-ok-apply"));
     ConfirmButton(Cancel, tr("Cancel"), tr("dialog-cancel"));
-
-    Lang->setText(tr("Languages"));
 
     // All thumbnail
     QToolButton* KoompiDark = new QToolButton;
@@ -172,9 +109,9 @@ void MainWindow::fullmainwindow(){
     FooterLayout->addWidget(Apply);
     FooterLayout->addWidget(Cancel);
 
-    AppTitleLayout->addWidget(AppTitle);
-    AppTitleLayout->addStretch();
-    AppTitleLayout->addWidget(Lang);
+    langtoollayout->addWidget(AppTitle);
+    langtoollayout->addStretch();
+    langtoollayout->addWidget(combo);
 
     Thumbnail(KoompiDark, tr("KOOMPI Dark"), "://resources/images/koompi-dark.png");
     Thumbnail(KoompiLight, tr("KOOMPI Light"), "://resources/images/koompi-light.png");
@@ -182,7 +119,6 @@ void MainWindow::fullmainwindow(){
     Thumbnail(KoompiMosxLight, tr("KOOMPI MOSX Light"), "://resources/images/mosx-light.png");
     Thumbnail(KoompiWinxDark, tr("KOOMPI WinX Dark"), "://resources/images/winx-dark.png");
     Thumbnail(KoompiWinxLight, tr("KOOMPI WinX Light"), "://resources/images/winx-light.png");
-
 
     ThumbnailLayout->setSpacing(20);
     ThumbnailLayout->addWidget(KoompiDark, 1, 1, 1, 1, Qt::AlignCenter);
@@ -193,6 +129,7 @@ void MainWindow::fullmainwindow(){
     ThumbnailLayout->addWidget(KoompiWinxLight, 3, 2, 1, 1, Qt::AlignCenter);
 
     Mainlayout->addLayout(ThumbnailLayout);
+    
 
     // Mainwindow And Widget Scoll
 
@@ -209,75 +146,26 @@ void MainWindow::fullmainwindow(){
     //Last Widget
     LastWidget->setGeometry(0,0,900,655);
 
-    MainLastLayout->addLayout(AppTitleLayout);
+    MainLastLayout->addLayout(langtoollayout);
     MainLastLayout->addWidget(Mainwindowscoll);
     MainLastLayout->addLayout(FooterLayout);
-    connect(Lang, &QPushButton::clicked, this, [=](){
 
-        connect(checkbox, &QCheckBox::stateChanged, languagedialog, [&](bool isChecked){
-            if (!isChecked){
-                combo->setDisabled(false);
-                savelanguage();
-            }
-            if (isChecked){
-                combo->setDisabled(true);
-                savelanguage();
-            }
-        });
+    LastWidget->show();
 
-        languagedialog->setLayout(langlayout);
-        languagedialog->show();
+    connect(combo,&QComboBox::textActivated,this, [=](){
+        qDebug()<<combo->currentData()<<combo->currentText()<<combo->currentIndex();
 
-        connect(applybutton, &QPushButton::clicked, this, [=](){
-            if( checkbox->isChecked()){
+        if (combo->currentIndex() == 0){
+            restartApp();    //restart app
+        }
+        if (combo->currentIndex() == 1){
+            restartApp();
+        }
+        if (combo->currentIndex() == 2){
+            restartApp();
+        }
 
-                if (lsystem.languageToString(lsystem.language()) == "Khmer"){
-                    khmersystemlangtool();
-                    LastWidget->close();
-                    closeanywidget();
-
-                    qDebug()<<"khmer combobox set1";
-                }
-                if(lsystem.languageToString(lsystem.language()) != "Khmer"){
-                    LastWidget->close();
-                    englishsystemlangtool();
-                    closeanywidget();
-
-                    qDebug()<<"english combobox set1";
-                }
-            }
-            if(!checkbox->isChecked()){
-                if (combo->currentText() == "English"){
-
-                    LastWidget->close();        //close any widget or mainwindow
-                    closeanywidget();
-                    englishsystemlangtool();    //set english language
-
-                }
-                if (combo->currentText() == "Khmer"){
-
-                    LastWidget->close();      //close any widget or mainwindow
-                    closeanywidget();
-                    khmersystemlangtool();     //set khmer language
-
-                }
-                if (combo->currentText() == "ខ្មែរ"){
-
-                    LastWidget->close();       //close any widget or mainwindow
-                    closeanywidget();
-                    khmersystemlangtool();      //set khmer language
-
-                }
-                if (combo->currentText() == "អង់គ្លេស"){
-
-                    LastWidget->close();        //close any widget or mainwindow
-                    closeanywidget();
-                    englishsystemlangtool();     //set khmer language
-
-                }
-
-            }
-        });
+        savelanguage();
     });
 
     connect(Default, &QPushButton::clicked, this, [=](){
@@ -363,8 +251,6 @@ void MainWindow::fullmainwindow(){
     LastWidget->setWindowTitle(tr("Theme Manager"));
     //this->setCentralWidget(wrap(MainLastLayout));
 
-    LastWidget->show();
-
 }
 
 QToolButton *MainWindow::Thumbnail(QToolButton *Button, const QString &Name, const QString &ImagePath)
@@ -388,74 +274,45 @@ QPushButton *MainWindow::ConfirmButton(QPushButton *Button, const QString &Name,
     Button->setMaximumHeight(35);
     return Button;
 }
-void MainWindow::savelanguage()
-{
-    QLocale lsystem = QLocale::system();
+
+void MainWindow::loadlanguage(){
     QString savedata = QDir::homePath().append("/.config/Theme Manager/thememanager.ini");
     QSettings settings(savedata, QSettings::IniFormat);
     settings.beginGroup("mainwindow");
-
-    settings.setValue("checkbox", checkbox->isChecked());
-    if (!checkbox->isChecked()){
-        if (combo->currentText() == "ខ្មែរ"){
-            settings.setValue("combo", "Khmer");
-        }
-        if (combo->currentText() == "អង់គ្លេស"){
-            settings.setValue("combo", "English");
-        }
-    }
-    if(checkbox->isChecked()){
-        if(lsystem.languageToString(lsystem.language()) == "Khmer"){
-            settings.setValue("combo", "Khmer");
-        }
-        if(lsystem.languageToString(lsystem.language()) != "Khmer"){
-            settings.setValue("combo", "English");
-        }
-    }
+    combo->setCurrentIndex(settings.value("combo").toInt());
     settings.endGroup();
-    qDebug()<<"Save Language";
 }
-
-void MainWindow::loadcombobox()
-{
+void MainWindow::savelanguage(){
     QString savedata = QDir::homePath().append("/.config/Theme Manager/thememanager.ini");
     QSettings settings(savedata, QSettings::IniFormat);
     settings.beginGroup("mainwindow");
-    combo->setCurrentText(settings.value("combo").toString());
-    checkbox->setTristate(settings.value("checkbox").toBool());
-    qDebug()<<"check bool"<<settings.value("checkbox").toBool();
+    settings.setValue("combo", combo->currentIndex());
     settings.endGroup();
 }
 void MainWindow::setenglishlang(){
     QTranslator t;
-    t.load(":/i18n/ph.qm");
+    t.load(":/i18n/km_KH.qm");
     qApp->removeTranslator(&t);
     fullmainwindow();
+    englishmain->close();
     khmermain->close();
 }
 void MainWindow::setkhmerlang(){
     QTranslator t;
-    t.load(":/i18n/km.qm");
+    t.load(":/i18n/km_KH.qm");
     qApp->installTranslator(&t);
     fullmainwindow();
     englishmain->close();
-}
-void MainWindow::loadcheckbox(){
-    QString savedata = QDir::homePath().append("/.config/Theme Manager/thememanager.ini");
-    QSettings settings(savedata, QSettings::IniFormat);
-    settings.beginGroup("mainwindow");
-    checkbox->setChecked(settings.value("checkbox").toBool());
-    combo->setDisabled(settings.value("checkbox").toBool());
-    settings.endGroup();
-}
-void MainWindow::closeanywidget(){
-    this->close();
-    languagedialog->close();
     khmermain->close();
-    englishmain->close();
 }
-
+void MainWindow::restartApp()
+{
+    qApp->quit();
+    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+    qApp->quit();
+}
 MainWindow::~MainWindow()
 {
 }
+
 
